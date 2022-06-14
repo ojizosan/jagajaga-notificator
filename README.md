@@ -2,3 +2,4 @@
 
 北大生応援メディアJagaJagaの編集部Slackに、JagaJaga宛のDMやメールを通知します。
 
+JagaJagaのSNSのDMやJagaJagaが対外的に公開しているお問合せメールアドレスにメールが来たとき、その内容を暗号化した上でJagaJaga編集部Slackの WEBHOOKに送信するプログラムです。
