@@ -1,5 +1,5 @@
-# jagajaga-slack-notificator
+# jagajaga-notificator
 
-北大生応援メディアJagaJagaの編集部Slackに、JagaJaga宛のDMやメールを通知します。
+北大生応援メディアJagaJagaの編集部に、JagaJaga宛のDMやメールを通知します。
 
-JagaJagaのSNSのDMやJagaJagaが対外的に公開しているお問合せメールアドレスにメールが来たとき、その内容を暗号化した上でJagaJaga編集部Slackの WEBHOOKに送信するプログラムです。
+JagaJagaのSNSのDMやJagaJagaが対外的に公開しているお問合せメールアドレスにメールが来たとき、その内容を暗号化した上でJagaJaga編集部の WEBHOOKに送信するプログラムです。
