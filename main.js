@@ -9,8 +9,7 @@
 // confidential
 var prop = PropertiesService.getScriptProperties().getProperties();
 
-const WEBHOOK_URL_TWITTER = prop.WEBHOOK_URL_TWITTER;
-const WEBHOOK_URL_GMAIL = prop.WEBHOOK_URL_GMAIL;
+const WEBHOOK_URL_DISCORD = prop.WEBHOOK_URL_DISCORD;
 
 const main = () => {
   /**
@@ -23,15 +22,17 @@ const main = () => {
    * 
    * 以上の処理はGmailのフィルタで行なっている
    */
-  // slackに転送後、星を外す
+  // 転送後、星を外す
   var searchTarget = 'is:starred {label:twitterdm label:contact}';
   GmailApp
     .search(searchTarget)
     .forEach((thread) => {
       thread.getMessages().forEach((message) => {
-        GmailApp.unstarMessage(message);
-        send(message);
-        Utilities.sleep(2 * 1000);
+        if (message.isStarred()) {
+          GmailApp.unstarMessage(message);
+          send(message);
+          Utilities.sleep(2 * 1000);
+        }
       })
       thread.refresh();
     });
@@ -39,11 +40,11 @@ const main = () => {
 
 
 /**
- * TwitterDMかでメールかで処理を分けています
- * それから Slack の webhook に POST しています
+ * TwitterDMかでメール（未実装）かで処理を分けています
+ * それから webhook に POST しています
  */
 const send = (message) => {
-  let sendText;
+  let username, sendText, avatarURL;
   const formattedDate = Utilities.formatDate(message.getDate(), "Asia/Tokyo", "yyyy-MM-dd HH:mm")
   if (message.getBody()
     .match(/1px;font-size:1px;color:#ffffff;"> [\s\S]*?<d>/g)) {
@@ -57,8 +58,13 @@ const send = (message) => {
       .slice(1, -12);
     sendText = `from ${dmFrom}（${dmBody[0]}）｜${formattedDate}\n${dmBody[1]}`
 
+    userName = "DMだよ"
+    avatarURL = "https://logodix.com/logo/512427.png"
+
     const jsonData = {
-      "text": sendText,
+      "username": userName,
+      "content": sendText,
+      avatar_url: avatarURL
     };
 
     const options = {
@@ -68,14 +74,19 @@ const send = (message) => {
     };
 
     Logger.log(options)
-    UrlFetchApp.fetch(WEBHOOK_URL_TWITTER, options);
+    UrlFetchApp.fetch(WEBHOOK_URL_DISCORD, options);
     
   } else {
     const messageBody = message.getPlainBody().slice(0, 200)
     sendText = `from ${message.getFrom()}｜${formattedDate}\n【件名】${message.getSubject()}\n【本文】\n${messageBody} ${message.getPlainBody().length > 200 ? "\n\n...(続きあり)" : "\n\n(本文終わり)"}`
+    userName = "メールだよ"
+    avatarURL = "https://img.utdstc.com/icon/914/594/914594dc642c466f0979e4d13bd8025339e45750cd0e11188c409de64c7e79a2:200"
+
 
     const jsonData = {
-    "text": sendText,
+      "username": userName,
+      "content": sendText,
+      avatar_url: avatarURL
     };
 
     const options = {
@@ -85,6 +96,6 @@ const send = (message) => {
     };
     
     Logger.log(options)
-    UrlFetchApp.fetch(WEBHOOK_URL_GMAIL, options);
+    UrlFetchApp.fetch(WEBHOOK_URL_DISCORD, options);
   }
 }
