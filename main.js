@@ -1,9 +1,3 @@
-/**
- * 参考
-
- */
-
-
 // confidential
 var prop = PropertiesService.getScriptProperties().getProperties();
 
