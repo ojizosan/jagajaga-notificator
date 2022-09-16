@@ -7,6 +7,14 @@
 
 へのお問合せを編集部discordへ転送します
 
+## Development
+
+以下のような開発方法をお勧めします
+
+- [clasp](https://github.com/google/clasp)を使いローカル環境で開発する
+- [Google Apps Script GitHub アシスタント
+](https://chrome.google.com/webstore/detail/google-apps-script-github/lfjcgcmkmjjlieihflfhjopckgpelofo?hl=ja)を利用する
+
 ## Deployment
 
 Google Apps Scriptのスクリプトプロパティ機能を利用して`WEBHOOK_URL_DISCORD`に適切なWebhookを設定する必要があります
